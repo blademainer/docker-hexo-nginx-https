@@ -1,0 +1,40 @@
+version: '3'
+services:
+  etcd:
+    image: "quay.io/coreos/etcd:latest"
+    command: "etcd \
+                   -name etcd0 \
+                   --data-dir=/etcd-data \
+                   -advertise-client-urls http://127.0.0.1:2379,http://127.0.0.1:4001 \
+                   -listen-client-urls http://0.0.0.0:2379,http://0.0.0.0:4001 \
+                   -initial-advertise-peer-urls http://127.0.0.1:2380 \
+                   -listen-peer-urls http://0.0.0.0:2380 \
+                   -initial-cluster-token etcd-cluster-1 \
+                   -initial-cluster etcd0=http://127.0.0.1:2380 \
+                   -initial-cluster-state new"
+    environment:
+      - ETCDCTL_API=3
+    volumes:
+      - ./etcd-data:/etcd-data
+  etcd-ui:
+    image: "pjoc/etcd-ui"
+    volumes:
+      - ./etcd-ui:/app/conf
+    ports:
+      - 28088:8080
+    links:
+      - etcd:etcd
+  mysql:
+    image: "mysql"
+    command: "--character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --transaction_isolation=READ-COMMITTED --default-authentication-plugin=mysql_native_password"
+    ports:
+      - 3306:3306
+    volumes:
+      - ../sql:/docker-entrypoint-initdb.d
+      - ./mysql/data:/var/lib/mysql
+    environment
+      - LANG=C.UTF-8:
+      - MYSQL_ROOT_PASSWORD=Y3pgfViSgKEMHbOj
+      - MYSQL_USER=pjoc
+      - MYSQL_PASSWORD=pjoc_pay
+      - MYSQL_DATABASE=pay_gateway
