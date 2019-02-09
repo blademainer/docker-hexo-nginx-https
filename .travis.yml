@@ -22,3 +22,4 @@ before_install:
 install:
 - [ -z "$TRAVIS_TAG" ] && docker build nginx -t $DEV_REPO && docker push $DEV_REPO # build
 - [ -n "$TRAVIS_TAG" ] && docker pull $DEV_REPO && docker tag $DEV_REPO $RELEASE_REPO && docker push $RELEASE_REPO # release
+
