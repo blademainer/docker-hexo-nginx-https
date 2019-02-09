@@ -3,9 +3,9 @@ services:
 - docker
 stages:
 - name: install
-  if: branch = master
+  if: tag IS blank
 - name: script
-  if: tag = true
+  if: tag IS present
 env:
   global:
   - secure: eu6cPJ5uD61JGZ6MusBXyD6N8QK2xVOTm+dhKUO3u6la6NN8F2/cgUcr6UwnPtlVyXJ7pRR3utYEAz46j+4wGmNbY1GBkiH4VRSoy9QTxrjuTpDUg/KrtU+9fTM5p18TgUJqLUVXgEEwXqU9J64q5Uxm2UGJPI9quYnc7qjhee+5+2I8zo5Yy7JK/ri/Azixl73uMNfRjSbO34VFIBmfdY9V0o/fjzWQfQRiykyPQ9G/2S97B/lKw+YYf0DoytsLAlXZBXdQfw5oMczEVdLq4d5P6dt1Nz1Cc0oHoSScxGQQrGxGgB/8dDqwC/7zVIwo2z/MEdVswU1O4dOpY/zDfSRDwX+MkI8ZymwoI1EDKDhEDLF0G3hklDGkzp6ROkF+Ug8MrvwAHUtx2YQYrmJX/Sb5amimF5P5HDxoap4k8JZqmQIXEENFgJ9oBMUZ47uAthPqqadPuQIZR/TWEOsUX+5L3lTO8OP0EKUfqtU/3ttSl87w9jMr0DPkKC1yFxs0bR9hjByIBa7ltvnc6UtC2Nse4enymzuFebosHsAmq4l2hYsphOwbnYNMEP8kOfEGmHx8r5Fez+aSWrhXndSOikPtrE4T45g1r/2qTife7IXZSr+gb4JuIiZAo5XwoC73YTDzNWRjYlZAr5E7OCPB+GqL8B+S2GsfEJ0YBCZTTGM=
