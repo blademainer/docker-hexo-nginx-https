@@ -1,11 +1,11 @@
 language: shell
 services:
 - docker
-stages:
-- name: build
-  if: tag IS blank
-- name: release
-  if: tag IS present
+#stages:
+#- name: build
+#  if: tag IS blank
+#- name: release
+#  if: tag IS present
 
 
 env:
@@ -16,22 +16,9 @@ env:
   - DEV_REPO=$DOCKER_USER/hexo-nginx-https:$DOCKER_TAG
   - RELEASE_REPO=$DOCKER_USER/hexo-nginx-https:$TRAVIS_TAG
 
-jobs:
-  include:
-    - stage: before
-      script: env
-    -
-      script: docker login -u$DOCKER_USER -p$DOCKER_PASS
-    - stage: build
-      script: docker build nginx -t $DEV_REPO && docker push $DEV_REPO
-    - stage: release
-      script: docker pull $DEV_REPO && docker tag $DEV_REPO $RELEASE_REPO && docker push $RELEASE_REPO
-#before_install:
-#- env
-#- docker login -u$DOCKER_USER -p$DOCKER_PASS
-#install:
-#- docker build nginx -t $DEV_REPO && docker push $DEV_REPO
-#script:
-#- if [ -z "$TRAVIS_TAG" ]; then exit 0; fi
-#- docker pull $DEV_REPO
-#- docker tag $DEV_REPO $RELEASE_REPO && docker push $RELEASE_REPO
+before_install:
+- env
+- docker login -u$DOCKER_USER -p$DOCKER_PASS
+install:
+- [ -z "$TRAVIS_TAG" ] && docker build nginx -t $DEV_REPO && docker push $DEV_REPO # build
+- [ -n "$TRAVIS_TAG" ] && docker pull $DEV_REPO && docker tag $DEV_REPO $RELEASE_REPO && docker push $RELEASE_REPO # release
