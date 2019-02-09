@@ -2,10 +2,12 @@ language: shell
 services:
 - docker
 stages:
-- name: install
+- name: build
   if: tag IS blank
-- name: script
+- name: release
   if: tag IS present
+
+
 env:
   global:
   - secure: eu6cPJ5uD61JGZ6MusBXyD6N8QK2xVOTm+dhKUO3u6la6NN8F2/cgUcr6UwnPtlVyXJ7pRR3utYEAz46j+4wGmNbY1GBkiH4VRSoy9QTxrjuTpDUg/KrtU+9fTM5p18TgUJqLUVXgEEwXqU9J64q5Uxm2UGJPI9quYnc7qjhee+5+2I8zo5Yy7JK/ri/Azixl73uMNfRjSbO34VFIBmfdY9V0o/fjzWQfQRiykyPQ9G/2S97B/lKw+YYf0DoytsLAlXZBXdQfw5oMczEVdLq4d5P6dt1Nz1Cc0oHoSScxGQQrGxGgB/8dDqwC/7zVIwo2z/MEdVswU1O4dOpY/zDfSRDwX+MkI8ZymwoI1EDKDhEDLF0G3hklDGkzp6ROkF+Ug8MrvwAHUtx2YQYrmJX/Sb5amimF5P5HDxoap4k8JZqmQIXEENFgJ9oBMUZ47uAthPqqadPuQIZR/TWEOsUX+5L3lTO8OP0EKUfqtU/3ttSl87w9jMr0DPkKC1yFxs0bR9hjByIBa7ltvnc6UtC2Nse4enymzuFebosHsAmq4l2hYsphOwbnYNMEP8kOfEGmHx8r5Fez+aSWrhXndSOikPtrE4T45g1r/2qTife7IXZSr+gb4JuIiZAo5XwoC73YTDzNWRjYlZAr5E7OCPB+GqL8B+S2GsfEJ0YBCZTTGM=
@@ -13,12 +15,23 @@ env:
   - DOCKER_TAG=${TRAVIS_COMMIT:0:7}
   - DEV_REPO=$DOCKER_USER/hexo-nginx-https:$DOCKER_TAG
   - RELEASE_REPO=$DOCKER_USER/hexo-nginx-https:$TRAVIS_TAG
-before_install:
-- env
-- docker login -u$DOCKER_USER -p$DOCKER_PASS
-install:
-- docker build nginx -t $DEV_REPO && docker push $DEV_REPO
-script:
-- if [ -z "$TRAVIS_TAG" ]; then exit 0; fi
-- docker pull $DEV_REPO
-- docker tag $DEV_REPO $RELEASE_REPO && docker push $RELEASE_REPO
+
+jobs:
+  include:
+    - stage: before
+      script: env
+    -
+      script: docker login -u$DOCKER_USER -p$DOCKER_PASS
+    - stage: build
+      script: docker build nginx -t $DEV_REPO && docker push $DEV_REPO
+    - stage: release
+      script: docker pull $DEV_REPO && docker tag $DEV_REPO $RELEASE_REPO && docker push $RELEASE_REPO
+#before_install:
+#- env
+#- docker login -u$DOCKER_USER -p$DOCKER_PASS
+#install:
+#- docker build nginx -t $DEV_REPO && docker push $DEV_REPO
+#script:
+#- if [ -z "$TRAVIS_TAG" ]; then exit 0; fi
+#- docker pull $DEV_REPO
+#- docker tag $DEV_REPO $RELEASE_REPO && docker push $RELEASE_REPO
