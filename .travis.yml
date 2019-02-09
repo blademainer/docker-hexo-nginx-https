@@ -17,7 +17,7 @@ before_install:
 - env
 - docker login -u$DOCKER_USER -p$DOCKER_PASS
 install:
-- docker build nginx/ -t $DEV_REPO && docker push $DEV_REPO
+- docker build nginx -t $DEV_REPO && docker push $DEV_REPO
 script:
 - if [ -z "$TRAVIS_TAG" ]; then exit 0; fi
 - docker pull $DEV_REPO
