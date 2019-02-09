@@ -14,6 +14,7 @@ ADD cron-acme.sh /bin
 ADD crontab /etc/cron.d/acme-cron
 ADD running.env /etc
 ADD conf.d/*.conf /etc/nginx/conf.d/
+COPY sshd_config /etc/ssh/sshd_config
 
 RUN chmod +x /bin/*.sh && chmod +x /etc/running.env
 
