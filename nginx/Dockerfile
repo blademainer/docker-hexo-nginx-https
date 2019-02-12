@@ -19,7 +19,7 @@ COPY sshd_config /etc/ssh/sshd_config
 RUN chmod +x /bin/*.sh && chmod +x /etc/running.env
 
 RUN mkdir -p /nginx/ssl/ && chmod 777 /nginx/html \
- && git init --bare /home/git/blog.git && chown -R git:git /home/git && chmod -R ug+rwX /home/git  \
+ && git init --bare /home/git/blog.git && chown -R git:git /home/git && chown -R git:git /nginx/html && chmod -R ug+rwX /home/git  \
  && echo "git --work-tree=/nginx/html --git-dir=/home/git/blog.git checkout -f" > /home/git/blog.git/hooks/post-receive \
  && chmod +x /home/git/blog.git/hooks/post-receive
 
