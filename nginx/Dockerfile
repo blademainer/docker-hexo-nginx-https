@@ -1,6 +1,6 @@
 FROM nginx:latest
 
-RUN apt-get update && apt-get -y install cron curl wget \
+RUN apt-get update && apt-get -y install cron curl wget vim \
  && apt-get install -y git && adduser git && mkdir -p /home/git/.ssh && touch /home/git/.ssh/authorized_keys \
  && apt-get install -y openssh-server && mkdir /var/run/sshd \
  && cd /tmp && curl https://get.acme.sh | sh \
