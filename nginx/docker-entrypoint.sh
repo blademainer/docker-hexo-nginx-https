@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 echo "env: `env`"
 
+export DOMAINS=`echo $DOMAIN | grep -E "^\w+(\.\w+)+(\s+\w+(\.\w+)+)*$"`
+[ -z "$DOMAINS" ] && echo "DOMAIN format is: example.net www.example.net aaa.example.net" && exit 1
+
 DEFAULT_TZ="Asia/Shanghai"
 if [ -z "$TZ" ]; then
  export TZ="$DEFAULT_TZ"
@@ -54,10 +57,15 @@ echo "$AUTHORIZED_KEYS" >> /home/git/.ssh/authorized_keys
 #exec $@
 cron &
 
+# https://github.com/Neilpang/acme.sh/wiki/%E8%AF%B4%E6%98%8E#5-%E6%9B%B4%E6%96%B0-acmesh
+~/.acme.sh/acme.sh  --upgrade  --auto-upgrade
+
 /usr/sbin/sshd
+# auto update certs.
+# https://github.com/Neilpang/acme.sh/wiki/%E8%AF%B4%E6%98%8E#4-%E6%9B%B4%E6%96%B0%E8%AF%81%E4%B9%A6
 /bin/cron-acme.sh
 
-crontab /etc/cron.d/acme-cron
+#crontab /etc/cron.d/acme-cron
 
 chown -R git:git /nginx/html
 
