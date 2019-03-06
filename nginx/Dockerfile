@@ -11,7 +11,7 @@ ENV ACME_RUNNING_ARGS=""
 
 ADD docker-entrypoint.sh /bin
 ADD cron-acme.sh /bin
-ADD crontab /etc/cron.d/acme-cron
+#ADD crontab /etc/cron.d/acme-cron
 ADD running.env /etc
 ADD conf.d/*.conf /etc/nginx/conf.d/
 COPY sshd_config /etc/ssh/sshd_config

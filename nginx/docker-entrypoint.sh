@@ -13,12 +13,12 @@ ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 [ -z "$AUTHORIZED_KEYS" ] && echo "env: AUTHORIZED_KEYS is null! please present it!" && exit 1
 
-DEFAULT_DNS_TYPE="dns_dp"
-if [ -z "$DNS_TYPE" ]; then
- export DNS_TYPE="$DEFAULT_DNS_TYPE"
-fi
-
-echo "DNS_TYPE: $DNS_TYPE"
+#DEFAULT_DNS_TYPE="dns_dp"
+#if [ -z "$DNS_TYPE" ]; then
+# export DNS_TYPE="$DEFAULT_DNS_TYPE"
+#fi
+#
+#echo "DNS_TYPE: $DNS_TYPE"
 
 #case $DNS_TYPE in \
 #  "dns_dp") \
@@ -48,8 +48,8 @@ echo $DOMAIN | awk '{rs="";delimiter="";for(i=1;i<=NF;i++){rs=rs""delimiter""$i;
 #export RUNNING_ARGS="$@"
 #ACME_RUNNING_ARGS=""
 
-#sed -i "s~%RUNNING_ARGS%~$RUNNING_ARGS~g" /etc/running.env
-sed -i "s~%DNS_TYPE%~$DNS_TYPE~g" /etc/running.env
+# sed -i "s~%RUNNING_ARGS%~$RUNNING_ARGS~g" /etc/running.env
+# sed -i "s~%DNS_TYPE%~$DNS_TYPE~g" /etc/running.env
 sed -i "s~%DOMAIN%~$DOMAIN~g" /etc/running.env
 sed -i "s~%DOMAIN%~$DOMAIN~g" /etc/nginx/conf.d/hexo.conf
 
@@ -65,7 +65,7 @@ cron &
 # https://github.com/Neilpang/acme.sh/wiki/%E8%AF%B4%E6%98%8E#4-%E6%9B%B4%E6%96%B0%E8%AF%81%E4%B9%A6
 /bin/cron-acme.sh
 
-#crontab /etc/cron.d/acme-cron
+# crontab /etc/cron.d/acme-cron
 
 chown -R git:git /nginx/html
 
