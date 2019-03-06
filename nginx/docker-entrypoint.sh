@@ -57,6 +57,8 @@ cron &
 /usr/sbin/sshd
 /bin/cron-acme.sh
 
+crontab /etc/cron.d/acme-cron
+
 chown -R git:git /nginx/html
 
 nginx -g "daemon off;"

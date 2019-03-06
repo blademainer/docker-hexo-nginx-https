@@ -1,1 +1,1 @@
-0 0 * * * root /bin/cron-acme.sh
+0 0 * * * /bin/cron-acme.sh >> /var/log/acme.log
