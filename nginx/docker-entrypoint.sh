@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 echo "env: `env`"
 
-export DOMAINS=`echo $DOMAIN | grep -E "^\w+(\.\w+)+(\s+\w+(\.\w+)+)*$"`
+export DOMAINS="`echo $DOMAIN | grep -E '^\w+(\.\w+)+(\s+\w+(\.\w+)+)*$'`"
 [ -z "$DOMAINS" ] && echo "DOMAIN format is: example.net www.example.net aaa.example.net" && exit 1
 
 DEFAULT_TZ="Asia/Shanghai"
