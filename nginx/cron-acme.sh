@@ -22,4 +22,4 @@ KEY_FILE="/nginx/ssl/domain.key"
 #cp ~/.acme.sh/$DOMAIN/fullchain.cer $FULLCHAIN_FILE
 #cp ~/.acme.sh/$DOMAIN/$DOMAIN.key $KEY_FILE
 echo "cer files: `ls /nginx/ssl/`"
-nginx -s force-reload
+nginx -s reload
