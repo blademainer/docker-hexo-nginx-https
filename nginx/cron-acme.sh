@@ -4,6 +4,7 @@ echo "DOMAIN: $DOMAIN"
 # echo "DNS_TYPE: $DNS_TYPE"
 echo "$DOMAIN" | awk '{rs="";delimiter=" -d ";for(i=1;i<=NF;i++){rs=rs""delimiter""$i;};print rs}' > /etc/domains_args
 DOMAIN_ARGS=`cat /etc/domains_args`
+echo "DOMAIN_ARGS: ${DOMAIN_ARGS}"
 
 /etc/running.env
 
