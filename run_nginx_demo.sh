@@ -1,15 +1,14 @@
 #!/usr/bin/env bash
-# Domain
-DOMAIN="xiongyingqi.com"
+# Your domains
+DOMAIN="xiongyingqi.com blog.xiongyingqi.com"
 
-# RSA pubkey
-AUTHORIZED_KEYS="xxx"
+# Generate ssh(just for demo).
+ssh-keygen -f blog_ssh -q -N ""
 
-# type of dns. see: https://github.com/Neilpang/acme.sh/blob/master/dnsapi/README.md
-DNS_TYPE="dns_dp"
-DP_Id="xxx"
-DP_Key="xxx"
+# Your ssh public key(multiple).
+AUTHORIZED_KEYS="`cat blog_ssh.pub`"
 
-docker run -d --name blog --restart always -p 122:22 -p 443:443 -e "DOMAIN=$DOMAIN" -v `pwd`/html:/nginx/html -v `pwd`/acme_ssl:/root/.acme.sh/$DOMAIN -e "AUTHORIZED_KEYS=$AUTHORIZED_KEYS" -e DNS_TYPE=$DNS_TYPE -e DP_Id=$DP_Id -e DP_Key=$DP_Key blademainer/hexo-nginx-https:v0.0.4
-#DOMAIN="ss.xiongyingqi.com"
-#docker run --rm -p 122:22 -p 443:443 -e "DOMAIN=$DOMAIN" -v `pwd`/acme_ssl:/root/.acme.sh/$DOMAIN -e "AUTHORIZED_KEYS=`cat ~/.ssh/id_rsa.pub`" -e DNS_TYPE=dns_dp -e DP_Id=xxx -e DP_Key=xxx blademainer/hexo-nginx-https
+echo "your private key is: `cat blog_ssh`"
+
+docker run -d --name blog --restart always -p 122:22 -p 80:80 -p 443:443 -e DOMAIN="$DOMAIN" -v `pwd`/html:/nginx/html -v `pwd`/acme_ssl:/nginx/ssl/ -e "AUTHORIZED_KEYS=$AUTHORIZED_KEYS" blademainer/hexo-nginx-https:v0.0.8
+

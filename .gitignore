@@ -284,3 +284,5 @@ fabric.properties
 
 acme_ssl/
 *.tmp
+blog_ssh
+blog_ssh.pub
